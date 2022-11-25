@@ -1,6 +1,6 @@
 import sys
 import sqlite3
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
 from PyQt5 import uic
 
 stylesheet_welcome = """
@@ -22,6 +22,8 @@ stylesheet_reg = """
         background-repeat: no-repeat;
         background-position: center;
     } """
+
+CLOSED_FLAG = 0
 
 
 class Reg_Dialog(QDialog):
@@ -92,6 +94,7 @@ class Login_Dialog(QDialog):
         msg_box.exec_()
 
     def login_check(self):
+        global CLOSED_FLAG
         username = self.user.text()
         password = self.password.text()
         if not username or not password:
@@ -101,6 +104,7 @@ class Login_Dialog(QDialog):
         result = list(cur.execute(f"SELECT username, password FROM users WHERE username = '{username}' and "
                                   f"password = '{password}'").fetchall())
         if result:
+            CLOSED_FLAG = 1
             self.close()
             self.con.close()
             self.obj.close()

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1113</width>
+    <height>860</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="user_name">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>100</y>
+      <width>301</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+    </property>
+    <property name="text">
+     <string>User_Name</string>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>110</y>
+      <width>961</width>
+      <height>591</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Олимпиады</string>
+     </attribute>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>60</y>
+        <width>181</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="add">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>175</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(85, 255, 0);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 10px;
+border: 3px solid #5555ff;
+color: blue;
+</string>
+         </property>
+         <property name="text">
+          <string>Добавить</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">maingroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="download">
+         <property name="maximumSize">
+          <size>
+           <width>175</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(85, 255, 0);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 10px;
+border: 3px solid #5555ff;
+color: blue;
+</string>
+         </property>
+         <property name="text">
+          <string>Загрузить</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">maingroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="upload">
+         <property name="maximumSize">
+          <size>
+           <width>175</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(85, 255, 0);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 10px;
+border: 3px solid #5555ff;
+color: blue;
+</string>
+         </property>
+         <property name="text">
+          <string>Выгрузить</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">maingroup</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>751</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="filter_label">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(85, 85, 255);
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Фильтровать</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="filter">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="find_label">
+           <property name="minimumSize">
+            <size>
+             <width>71</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(85, 85, 255);
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Поиск</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="find_Edit">
+           <property name="minimumSize">
+            <size>
+             <width>451</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">
+border-radius: 10px;
+border: 3px solid rgb(85, 85, 255);
+</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="olympiad_table"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Предметы</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Результаты</string>
+     </attribute>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="maingroup"/>
+ </buttongroups>
+</ui>
