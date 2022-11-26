@@ -24,6 +24,7 @@ stylesheet_reg = """
     } """
 
 CLOSED_FLAG = 0
+USER_ID = (0, "")
 
 
 class Reg_Dialog(QDialog):
@@ -52,6 +53,7 @@ class Reg_Dialog(QDialog):
         msg_box.exec_()
 
     def reg_check(self):
+        global USER_ID
         username = self.user_reg.text()
         password = self.password_reg.text()
         if not username or not password:
@@ -60,7 +62,6 @@ class Reg_Dialog(QDialog):
         cur = self.con.cursor()
         result = list(
             cur.execute(f"SELECT username FROM users WHERE username = '{username}'").fetchall())
-        print(2)
         if not result:
             self.info_message_box('Успешно!', f'Регистрация прошла под логином {username}')
             temp = list(
@@ -68,7 +69,6 @@ class Reg_Dialog(QDialog):
             cur.execute(f"""INSERT INTO users(user_id, username, password) VALUES({len(temp) + 1}, '{username}', 
             '{password}')""")
             self.close()
-            print(1)
             self.con.commit()
             self.con.close()
         else:
@@ -94,17 +94,18 @@ class Login_Dialog(QDialog):
         msg_box.exec_()
 
     def login_check(self):
-        global CLOSED_FLAG
+        global CLOSED_FLAG, USER_ID
         username = self.user.text()
         password = self.password.text()
         if not username or not password:
             msg = QMessageBox.information(self, 'Внимание!', 'Вы не заполнили все поля.')
             return
         cur = self.con.cursor()
-        result = list(cur.execute(f"SELECT username, password FROM users WHERE username = '{username}' and "
+        result = list(cur.execute(f"SELECT user_id, username, password FROM users WHERE username = '{username}' and "
                                   f"password = '{password}'").fetchall())
         if result:
             CLOSED_FLAG = 1
+            USER_ID = (result[0][0], result[0][1])
             self.close()
             self.con.close()
             self.obj.close()

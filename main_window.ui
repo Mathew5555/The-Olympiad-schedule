@@ -19,7 +19,7 @@
      <rect>
       <x>800</x>
       <y>100</y>
-      <width>301</width>
+      <width>271</width>
       <height>31</height>
      </rect>
     </property>
@@ -33,11 +33,17 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>120</x>
       <y>110</y>
       <width>961</width>
       <height>591</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>961</width>
+      <height>591</height>
+     </size>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -46,18 +52,51 @@
      <attribute name="title">
       <string>Олимпиады</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>770</x>
         <y>60</y>
         <width>181</width>
-        <height>171</height>
+        <height>201</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QPushButton" name="add">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>175</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;После добавления не забудьте обновить!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(85, 255, 0);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 10px;
+border: 3px solid #5555ff;
+color: blue;
+</string>
+         </property>
+         <property name="text">
+          <string>Добавить</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">maingroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="add_2">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -79,11 +118,8 @@ color: blue;
 </string>
          </property>
          <property name="text">
-          <string>Добавить</string>
+          <string>Обновить</string>
          </property>
-         <attribute name="buttonGroup">
-          <string notr="true">maingroup</string>
-         </attribute>
         </widget>
        </item>
        <item>
@@ -93,6 +129,12 @@ color: blue;
            <width>175</width>
            <height>35</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Внимание!!! Загружается только csv файл с разделителем &amp;quot;;&amp;quot;. В файле  6 столбцов(название, предмет обязательно прописать, в остальных, в случае отсутствия, поставить пробел). Строку с заголовками не надо писать!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="whatsThis">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;afafsd&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(85, 255, 0);
@@ -213,6 +255,27 @@ border: 3px solid rgb(85, 85, 255);
        </item>
       </layout>
      </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>450</y>
+        <width>161</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color: blue;
+</string>
+      </property>
+      <property name="text">
+       <string>Не забывайте
+обновлять после
+каждого добавления!</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -224,6 +287,33 @@ border: 3px solid rgb(85, 85, 255);
       <string>Результаты</string>
      </attribute>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="upload_2">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>750</y>
+      <width>271</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>300</width>
+      <height>35</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 255, 0);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 10px;
+border: 3px solid #5555ff;
+
+</string>
+    </property>
+    <property name="text">
+     <string>Ответы на частые вопросы</string>
+    </property>
    </widget>
   </widget>
  </widget>
