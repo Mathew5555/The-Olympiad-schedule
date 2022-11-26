@@ -1,18 +1,43 @@
 import sys
 import csv
 import sqlite3
+import datetime as dt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QHeaderView, QFileDialog, QMessageBox, QDialog
 from PyQt5 import uic, QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap, QColor
 import welcome_window as ww
 import add_window as aw
+from stylesheets import *
+from edit_and_delete import *
 
-stylesheet_main = """
-    MainWindow {
-        background-image: url("background_welcome_window.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-    } """
+
+def translate(*args):
+    res = []
+    for el in args[0]:
+        if el[-1] == "Победитель":
+            res.append(list(el[:-1]) + [1])
+        elif el[-1] == "Призер":
+            res.append(list(el[:-1]) + [2])
+        elif el[-1] == "Участник":
+            res.append(list(el[:-1]) + [3])
+        else:
+            res.append(list(el[:-1]) + [4])
+    return res
+
+
+def retranslate(args):
+    res = []
+    for el in args:
+        if el[-1] == 1:
+            res.append(el[:-1] + ["Победитель"])
+        elif el[-1] == 2:
+            res.append(el[:-1] + ["Призер"])
+        elif el[-1] == 3:
+            res.append(el[:-1] + ["Участник"])
+        else:
+            res.append(el[:-1] + ["Нет данных"])
+    return res
 
 
 class MainWindow(QMainWindow):
@@ -23,17 +48,113 @@ class MainWindow(QMainWindow):
         self.setStyleSheet(stylesheet_main)
         self.user_name.setAlignment(Qt.AlignRight)
         self.find_Edit.textChanged.connect(self.run)
-        self.filter.addItems(["Без фильтра", "Название", "Предмет", "Дата"])
+        self.find_Edit_2.textChanged.connect(self.run_2)
+        self.filter.addItems(["Без фильтра", "Название", "Предмет", "Дата", "Дата результатов"])
+        self.filter_2.addItems(["Без фильтра", "Название", "Предмет", "Дата результатов", "Баллы", "Результаты"])
         con = sqlite3.connect("olympiads.db")
         self.cur = con.cursor()
         self.filter.currentIndexChanged.connect(self.run)
         self.olympiad_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.olympiad_table_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.olympiad_table.cellDoubleClicked.connect(self.edit_1)
+        # self.olympiad_table_2.itemDoubleClicked.connect(self.edit_2)
         self.add.clicked.connect(self.add_ol)
         self.user_name.setText(ww.USER_ID[1])
         self.add_2.clicked.connect(self.run)
+        self.filter_2.currentIndexChanged.connect(self.run_2)
         self.download.clicked.connect(self.downl)
         self.upload.clicked.connect(self.upl)
+        self.pixmap = QPixmap('cup.png')
+        self.label_2.setPixmap(self.pixmap)
         self.run()
+        self.run_2()
+
+    def edit_1(self, row, col):
+        elements = []
+        try:
+            self.tmp = list(self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.time,"
+                                         " olympiad.place, olympiad.duration, olympiad.when_results FROM "
+                                         "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id "
+                                         f"where id_user = {ww.USER_ID[0]} and olympiad.title_ol = "
+                                         f"'{self.olympiad_table.item(row, 0).text()}' ORDER BY "
+                                         f"olympiad.title_ol").fetchall())[0]
+            print(self.tmp)
+            self.ed = Edit_Ol(ww.USER_ID, self.tmp)
+            self.ed.show()
+        except Exception as e:
+            print(e)
+
+    def run_2(self):
+        text = self.find_Edit_2.text().lower()
+        self.olympiad_table_2.setColumnCount(5)
+        self.olympiad_table_2.setHorizontalHeaderLabels(["Название", "Предмет", "Дата результатов",
+                                                         "Баллы", "Результаты"])
+        self.olympiad_table_2.setRowCount(0)
+        filter_text = self.filter_2.currentText()
+        # print(filter_text)
+        if filter_text == "Без фильтра":
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
+                "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                "olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]}").fetchall()
+        elif filter_text == "Название":
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
+                "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                "olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"olympiad.title_ol").fetchall()
+        elif filter_text == "Предмет":
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
+                "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                "olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"subjects.subject").fetchall()
+        elif filter_text == "Дата результатов":
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
+                "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                "olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]}").fetchall()
+            result = sorted(filter(lambda x: x[2], result), key=lambda x: (int(x[2].split(".")[2]),
+                                                                           int(x[2].split(".")[1]),
+                                                                           int(x[2].split(".")[0])))
+        elif filter_text == "Баллы":
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
+                "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                "olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"scores DESC").fetchall()
+        else:
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
+                "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                f"olympiad.subject_id where title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"results").fetchall()
+            result = sorted(translate(list(result)), key=lambda x: x[-1])
+            result = retranslate(result)
+        for i, row in enumerate(result):
+            self.olympiad_table_2.setRowCount(self.olympiad_table_2.rowCount() + 1)
+            if row[4] and row[4] == "Победитель":
+                color = "#64fa46"
+            elif row[4] and row[4] == "Призер":
+                color = "#fffb00"
+            elif row[4] and row[4] != "Нет данных":
+                color = "#ff4800"
+            else:
+                color = "#8f8f8f"
+            for j, el in enumerate(row):
+                if not el:
+                    self.olympiad_table_2.setItem(i, j, QTableWidgetItem("Нет данных"))
+                else:
+                    self.olympiad_table_2.setItem(i, j, QTableWidgetItem(str(el)))
+                self.olympiad_table_2.item(i, j).setBackground(QColor(color))
+        self.olympiad_table_2.resizeColumnsToContents()
+        column_head = self.olympiad_table_2.horizontalHeader()
+        column_head.setSectionResizeMode(0, QHeaderView.Stretch)
 
     def warning_message_box(self, title, message):
         msg_box = QMessageBox()
@@ -78,6 +199,15 @@ class MainWindow(QMainWindow):
                     if row[5] != " " and row[5]:
                         zapros.append("duration")
                         values.append(f"{int(row[5])}")
+                    if row[6] != " " and row[6]:
+                        zapros.append("when_results")
+                        values.append(f"'{row[6]}'")
+                    if row[7] != " " and row[7]:
+                        zapros.append("scores")
+                        values.append(f"'{row[7]}'")
+                    if row[8] != " " and row[8]:
+                        zapros.append("results")
+                        values.append(f"'{row[8]}'")
                     if not result:
                         zapros.append("id_user")
                         values.append(f'{ww.USER_ID[0]}')
@@ -94,38 +224,58 @@ class MainWindow(QMainWindow):
 
     def run(self):
         text = self.find_Edit.text().lower()
-        self.olympiad_table.setColumnCount(4)
-        self.olympiad_table.setHorizontalHeaderLabels(["Название", "Предмет", "Дата", "Место"])
+        self.olympiad_table.setColumnCount(5)
+        self.olympiad_table.setHorizontalHeaderLabels(["Название", "Предмет", "Дата", "Место", "Дата результатов"])
         self.olympiad_table.setRowCount(0)
         filter_text = self.filter.currentText()
         if filter_text == "Без фильтра":
-            result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place FROM "
-                                      "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
+            result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place, "
+                                      "when_results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
+                                      "olympiad.subject_id where "
                                       f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]}").fetchall()
         elif filter_text == "Название":
-            result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place FROM "
-                                      "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
-                                      f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
-                                      f"olympiad.title_ol").fetchall()
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place, when_results FROM "
+                "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"olympiad.title_ol").fetchall()
         elif filter_text == "Предмет":
-            result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place FROM "
-                                      "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
-                                      f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
-                                      f"subjects.subject").fetchall()
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place, when_results FROM "
+                "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"subjects.subject").fetchall()
+        elif filter_text == "Дата результатов":
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place, when_results FROM "
+                "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} ORDER BY "
+                f"when_results").fetchall()
+            result = sorted(filter(lambda x: x[4], result), key=lambda x: (int(x[4].split(".")[2]),
+                                                                           int(x[4].split(".")[1]),
+                                                                           int(x[4].split(".")[0])))
+
         else:
-            result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place FROM "
-                                      "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
-                                      f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]}").fetchall()
+            result = self.cur.execute(
+                "select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place, when_results FROM "
+                "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id where "
+                f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]}").fetchall()
             result = sorted(filter(lambda x: x[2], result), key=lambda x: (int(x[2].split(".")[2]),
                                                                            int(x[2].split(".")[1]),
                                                                            int(x[2].split(".")[0])))
         for i, row in enumerate(result):
             self.olympiad_table.setRowCount(self.olympiad_table.rowCount() + 1)
+            if row[2] and dt.date(int(row[2].split(".")[2]), int(row[2].split(".")[1]),
+                                  int(row[2].split(".")[0])) > dt.date.today():
+                color = "#46b8fa"
+            else:
+                color = "#8f8f8f"
             for j, el in enumerate(row):
                 if not el:
                     self.olympiad_table.setItem(i, j, QTableWidgetItem("Нет данных"))
-                    continue
-                self.olympiad_table.setItem(i, j, QTableWidgetItem(str(el)))
+                else:
+                    self.olympiad_table.setItem(i, j, QTableWidgetItem(str(el)))
+                self.olympiad_table.item(i, j).setBackground(QColor(color))
         self.olympiad_table.resizeColumnsToContents()
         column_head = self.olympiad_table.horizontalHeader()
         column_head.setSectionResizeMode(0, QHeaderView.Stretch)
@@ -151,8 +301,6 @@ class Upload_Window(QDialog):
         self.cur = con.cursor()
         self.pushButton.clicked.connect(self.run)
         self.radioButton.nextCheckState()
-        # self.radioButton.toggled.connect(self.run)
-        # self.radioButton_3.toggled.connect(self.run)
 
     def run(self):
         result = self.cur.execute(
@@ -185,7 +333,9 @@ class Upload_Window(QDialog):
         else:
             with open('olymp.csv', 'w', newline='', encoding="utf8") as csvfile:
                 writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow(["Название", "Предмет", "Дата", "Время", "Место", "Длительность"])
+                writer.writerow(
+                    ["Название", "Предмет", "Дата", "Время", "Место", "Длительность", "Дата результатов", "Баллы",
+                     "Итог"])
                 for el in result:
                     res = [el[0], el[1]]
                     for item in el[2::]:

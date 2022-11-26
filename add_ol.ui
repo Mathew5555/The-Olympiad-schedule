@@ -18,7 +18,7 @@
     <rect>
      <x>220</x>
      <y>110</y>
-     <width>514</width>
+     <width>528</width>
      <height>58</height>
     </rect>
    </property>
@@ -91,7 +91,7 @@ color: blue;
     <string>Добавить</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>41</x>
@@ -389,6 +389,50 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
            </spacer>
           </item>
          </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item alignment="Qt::AlignLeft">
+         <widget class="QCheckBox" name="checkBox_7">
+          <property name="minimumSize">
+           <size>
+            <width>115</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(85, 85, 255);
+font: italic 15pt &quot;Monotype Corsiva&quot;;
+</string>
+          </property>
+          <property name="text">
+           <string>Дата рез.</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="dateEdit_2">
+          <property name="minimumSize">
+           <size>
+            <width>280</width>
+            <height>27</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

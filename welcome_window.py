@@ -1,27 +1,9 @@
 import sys
 import sqlite3
-from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from PyQt5 import uic
-
-stylesheet_welcome = """
-    Welcome {
-        background-image: url("background_welcome_window.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-    } """
-stylesheet_log = """
-    Login_Dialog {
-        background-image: url("background_log_reg.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-    } """
-
-stylesheet_reg = """
-    Reg_Dialog {
-        background-image: url("background_log_reg.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-    } """
+from stylesheets import *
+from exceptions import *
 
 CLOSED_FLAG = 0
 USER_ID = (0, "")
@@ -35,22 +17,7 @@ class Reg_Dialog(QDialog):
         self.setStyleSheet(stylesheet_reg)
         self.con = sqlite3.connect("olympiads.db")
         self.btn_enter_reg.clicked.connect(self.reg_check)
-
-    def info_message_box(self, title, message):
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Information)
-        msg_box.setWindowTitle(title)
-        msg_box.setText(message)
-        msg_box.setStandardButtons(QMessageBox.Ok)
-        msg_box.exec_()
-
-    def warning_message_box(self, title, message):
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Critical)
-        msg_box.setWindowTitle(title)
-        msg_box.setText(message)
-        msg_box.setStandardButtons(QMessageBox.Ok)
-        msg_box.exec_()
+        self.password_reg.setEchoMode(QLineEdit.EchoMode.Password)
 
     def reg_check(self):
         global USER_ID
@@ -62,17 +29,20 @@ class Reg_Dialog(QDialog):
         cur = self.con.cursor()
         result = list(
             cur.execute(f"SELECT username FROM users WHERE username = '{username}'").fetchall())
-        if not result:
-            self.info_message_box('Успешно!', f'Регистрация прошла под логином {username}')
-            temp = list(
-                cur.execute(f"SELECT username FROM users").fetchall())
-            cur.execute(f"""INSERT INTO users(user_id, username, password) VALUES({len(temp) + 1}, '{username}', 
-            '{password}')""")
-            self.close()
-            self.con.commit()
-            self.con.close()
-        else:
-            self.warning_message_box('Внимание!', f'Уже есть пользователь с таким именем')
+        try:
+            if not result:
+                info_message_box('Успешно!', f'Регистрация прошла под логином {username}')
+                temp = list(
+                    cur.execute(f"SELECT username FROM users").fetchall())
+                cur.execute(f"""INSERT INTO users(user_id, username, password) VALUES({len(temp) + 1}, '{username}', 
+                '{password}')""")
+                self.close()
+                self.con.commit()
+                self.con.close()
+            else:
+                raise User_Error
+        except Exception as e:
+            warning_message_box(e, "Ошибка")
 
 
 class Login_Dialog(QDialog):
@@ -84,14 +54,6 @@ class Login_Dialog(QDialog):
         self.setStyleSheet(stylesheet_log)
         self.con = sqlite3.connect("olympiads.db")
         self.btn_enter_log.clicked.connect(self.login_check)
-
-    def warning_message_box(self, title, message):
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Warning)
-        msg_box.setWindowTitle(title)
-        msg_box.setText(message)
-        msg_box.setStandardButtons(QMessageBox.Ok)
-        msg_box.exec_()
 
     def login_check(self):
         global CLOSED_FLAG, USER_ID
@@ -132,7 +94,10 @@ class Welcome(QDialog):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Welcome()
-    ex.show()
-    sys.exit(app.exec_())
+    try:
+        app = QApplication(sys.argv)
+        ex = Welcome()
+        ex.show()
+        sys.exit(app.exec_())
+    except Exception as e:
+        print(e)

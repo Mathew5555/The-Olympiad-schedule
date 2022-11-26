@@ -24,6 +24,7 @@ class Add_olympiad(QDialog):
         self.timeEdit.hide()
         self.calendarWidget.hide()
         self.spinBox.hide()
+        self.dateEdit_2.hide()
         self.spinBox.setMaximum(2147483647)
         self.comboBox.addItems(list(el[0] for el in self.con.cursor().execute(f"SELECT subject from subjects")))
         self.checkBox_5.clicked.connect(self.place)
@@ -31,16 +32,24 @@ class Add_olympiad(QDialog):
         self.checkBox.clicked.connect(self.date)
         self.checkBox_6.clicked.connect(self.duration)
         self.pushButton.clicked.connect(self.run)
+        self.checkBox_7.clicked.connect(self.date_res)
         self.place_val = None
         self.time_val = None
         self.date_val = None
         self.duration_val = None
+        self.date_result = None
 
     def place(self):
         if self.checkBox_5.isChecked():
             self.lineEdit_2.show()
         else:
             self.lineEdit_2.hide()
+
+    def date_res(self):
+        if self.checkBox_7.isChecked():
+            self.dateEdit_2.show()
+        else:
+            self.dateEdit_2.hide()
 
     def duration(self):
         if self.checkBox_6.isChecked():
@@ -92,20 +101,23 @@ class Add_olympiad(QDialog):
         zapros = ["ol_id", "title_ol", "subject_id"]
         values = [f"{len(temp) + 1}", f"'{title}'", f"{sub_id}"]
         if self.checkBox.isChecked():
-            date = self.calendarWidget.selectedDate().toString("yyyy.MM.dd")
+            date = self.calendarWidget.selectedDate().toString("dd.MM.yyyy")
             zapros.append("date")
             values.append(f"'{date}'")
             self.date = dt.date(int(date.split(".")[0]), int(date.split(".")[1]), int(date.split(".")[2]))
         if self.checkBox_2.isChecked():
             values.append(f"'{self.timeEdit.time().toString('hh.mm')}'")
             zapros.append("time")
-            self.time = self.timeEdit.time().toPyTime()
+
         if self.checkBox_5.isChecked():
             zapros.append("place")
             values.append(f"'{self.lineEdit_2.text()}'")
         if self.checkBox_6.isChecked():
             zapros.append("duration")
             values.append(f"{int(self.spinBox.text())}")
+        if self.checkBox_7.isChecked():
+            zapros.append("when_results")
+            values.append(f"'{self.dateEdit_2.date().toString('yyyy.MM.dd')}'")
         if not result:
             self.info_message_box('Успешно!', f'Добавлена олимпиада {title}')
             zapros.append("id_user")
@@ -122,6 +134,6 @@ class Add_olympiad(QDialog):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Add_olympiad(1)
+    ex = Add_olympiad((0, ""))
     ex.show()
     sys.exit(app.exec_())
