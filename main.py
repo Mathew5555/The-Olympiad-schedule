@@ -43,7 +43,13 @@ def retranslate(args):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main_window.ui', self)
+        con = sqlite3.connect("olympiads.db")
+        self.cur = con.cursor()
+        if ww.USER_ID[0] == 0:
+            uic.loadUi('admin.ui', self)
+            self.run_3()
+        else:
+            uic.loadUi('main_window.ui', self)
         self.setFixedSize(1200, 800)
         self.setStyleSheet(stylesheet_main)
         self.user_name.setAlignment(Qt.AlignRight)
@@ -51,38 +57,59 @@ class MainWindow(QMainWindow):
         self.find_Edit_2.textChanged.connect(self.run_2)
         self.filter.addItems(["Без фильтра", "Название", "Предмет", "Дата", "Дата результатов"])
         self.filter_2.addItems(["Без фильтра", "Название", "Предмет", "Дата результатов", "Баллы", "Результаты"])
-        con = sqlite3.connect("olympiads.db")
-        self.cur = con.cursor()
         self.filter.currentIndexChanged.connect(self.run)
         self.olympiad_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.olympiad_table_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.olympiad_table.cellDoubleClicked.connect(self.edit_1)
-        # self.olympiad_table_2.itemDoubleClicked.connect(self.edit_2)
+        self.olympiad_table_2.cellDoubleClicked.connect(self.edit_2)
         self.add.clicked.connect(self.add_ol)
         self.user_name.setText(ww.USER_ID[1])
         self.add_2.clicked.connect(self.run)
+        self.add_3.clicked.connect(self.run_2)
         self.filter_2.currentIndexChanged.connect(self.run_2)
         self.download.clicked.connect(self.downl)
         self.upload.clicked.connect(self.upl)
         self.pixmap = QPixmap('cup.png')
         self.label_2.setPixmap(self.pixmap)
+        self.pixmap_2 = QPixmap('main_photo.png')
+        self.label_3.setPixmap(self.pixmap_2)
         self.run()
         self.run_2()
 
     def edit_1(self, row, col):
-        elements = []
-        try:
-            self.tmp = list(self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.time,"
+        self.tmp = list(self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.time,"
                                          " olympiad.place, olympiad.duration, olympiad.when_results FROM "
                                          "olympiad LEFT JOIN subjects on subjects.id_subject = olympiad.subject_id "
                                          f"where id_user = {ww.USER_ID[0]} and olympiad.title_ol = "
-                                         f"'{self.olympiad_table.item(row, 0).text()}' ORDER BY "
-                                         f"olympiad.title_ol").fetchall())[0]
-            print(self.tmp)
-            self.ed = Edit_Ol(ww.USER_ID, self.tmp)
-            self.ed.show()
-        except Exception as e:
-            print(e)
+                                         f"'{self.olympiad_table.item(row, 0).text()}'").fetchall())[0]
+        self.ed = Edit_Ol(ww.USER_ID, self.tmp)
+        self.ed.show()
+
+    def edit_2(self, row, col):
+        self.tmp = list(self.cur.execute("select title_ol, when_results, scores, results FROM "
+                                         f"olympiad where id_user = {ww.USER_ID[0]} and title_ol = "
+                                         f"'{self.olympiad_table_2.item(row, 0).text()}'").fetchall())[0]
+        self.ed = Edit_Res(ww.USER_ID, self.tmp)
+        self.ed.show()
+
+    def run_3(self):
+        text = self.find_Edit_3.text().lower()
+        self.olympiad_table_3.setColumnCount(3)
+        self.olympiad_table_3.setHorizontalHeaderLabels(["ID", "Пользователь", "Пароль"])
+        self.olympiad_table_3.setRowCount(0)
+        result = self.cur.execute(
+            "select user_id, username, password FROM users where "
+            f"username LIKE '%{text}%'").fetchall()
+        for i, row in enumerate(result):
+            self.olympiad_table_3.setRowCount(self.olympiad_table_3.rowCount() + 1)
+            for j, el in enumerate(row):
+                if j == 2:
+                    self.olympiad_table_3.setItem(i, j, QTableWidgetItem("*" * len(str(el))))
+                    continue
+                self.olympiad_table_3.setItem(i, j, QTableWidgetItem(str(el)))
+        self.olympiad_table_3.resizeColumnsToContents()
+        column_head = self.olympiad_table_3.horizontalHeader()
+        column_head.setSectionResizeMode(1, QHeaderView.Stretch)
 
     def run_2(self):
         text = self.find_Edit_2.text().lower()
@@ -91,7 +118,6 @@ class MainWindow(QMainWindow):
                                                          "Баллы", "Результаты"])
         self.olympiad_table_2.setRowCount(0)
         filter_text = self.filter_2.currentText()
-        # print(filter_text)
         if filter_text == "Без фильтра":
             result = self.cur.execute(
                 "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "

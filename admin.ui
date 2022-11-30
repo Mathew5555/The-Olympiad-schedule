@@ -6,35 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1113</width>
-    <height>860</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="user_name">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>100</y>
-      <width>271</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
-    </property>
-    <property name="text">
-     <string>User_Name</string>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>110</y>
+      <x>120</x>
+      <y>100</y>
       <width>961</width>
       <height>591</height>
      </rect>
@@ -90,9 +74,6 @@ color: blue;
          <property name="text">
           <string>Добавить</string>
          </property>
-         <attribute name="buttonGroup">
-          <string notr="true">maingroup</string>
-         </attribute>
         </widget>
        </item>
        <item>
@@ -147,9 +128,6 @@ color: blue;
          <property name="text">
           <string>Загрузить</string>
          </property>
-         <attribute name="buttonGroup">
-          <string notr="true">maingroup</string>
-         </attribute>
         </widget>
        </item>
        <item>
@@ -171,9 +149,6 @@ color: blue;
          <property name="text">
           <string>Выгрузить</string>
          </property>
-         <attribute name="buttonGroup">
-          <string notr="true">maingroup</string>
-         </attribute>
         </widget>
        </item>
       </layout>
@@ -436,12 +411,137 @@ color: blue;
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Пользователи</string>
+     </attribute>
+     <widget class="QWidget" name="verticalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>701</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item alignment="Qt::AlignRight">
+          <widget class="QLabel" name="find_label_3">
+           <property name="minimumSize">
+            <size>
+             <width>71</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(85, 85, 255);
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Поиск</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="find_Edit_3">
+           <property name="minimumSize">
+            <size>
+             <width>440</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>166666</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">
+border-radius: 10px;
+border: 3px solid rgb(85, 85, 255);
+</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="olympiad_table_3"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>330</y>
+        <width>220</width>
+        <height>220</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="add_4">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>10</y>
+        <width>175</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>175</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(85, 255, 0);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 10px;
+border: 3px solid #5555ff;
+color: blue;
+</string>
+      </property>
+      <property name="text">
+       <string>Обновить</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="user_name">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>90</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+    </property>
+    <property name="text">
+     <string>admin</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="upload_2">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>750</y>
+      <x>410</x>
+      <y>740</y>
       <width>271</width>
       <height>35</height>
      </rect>
@@ -468,7 +568,4 @@ border: 3px solid #5555ff;
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="maingroup"/>
- </buttongroups>
 </ui>

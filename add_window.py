@@ -104,11 +104,10 @@ class Add_olympiad(QDialog):
             date = self.calendarWidget.selectedDate().toString("dd.MM.yyyy")
             zapros.append("date")
             values.append(f"'{date}'")
-            self.date = dt.date(int(date.split(".")[0]), int(date.split(".")[1]), int(date.split(".")[2]))
         if self.checkBox_2.isChecked():
             values.append(f"'{self.timeEdit.time().toString('hh.mm')}'")
+            print(values[-1])
             zapros.append("time")
-
         if self.checkBox_5.isChecked():
             zapros.append("place")
             values.append(f"'{self.lineEdit_2.text()}'")
