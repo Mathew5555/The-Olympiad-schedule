@@ -3,6 +3,7 @@ import sqlite3
 import datetime as dt
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
 from PyQt5 import uic
+from  PyQt5.QtCore import QDate
 
 stylesheet_add = """
     Add_olympiad {
@@ -25,6 +26,9 @@ class Add_olympiad(QDialog):
         self.calendarWidget.hide()
         self.spinBox.hide()
         self.dateEdit_2.hide()
+        date = dt.date.today()
+        d = QDate(date.year, date.month, date.day)
+        self.dateEdit_2.setDate(d)
         self.spinBox.setMaximum(2147483647)
         self.comboBox.addItems(list(el[0] for el in self.con.cursor().execute(f"SELECT subject from subjects")))
         self.checkBox_5.clicked.connect(self.place)
@@ -92,10 +96,8 @@ class Add_olympiad(QDialog):
             msg = QMessageBox.information(self, 'Внимание!', 'Вы не заполнили все поля.')
             return
         cur = self.con.cursor()
-        temp = list(
-            cur.execute(f"SELECT ol_id FROM olympiad").fetchall())
-        result = list(
-            cur.execute(f"SELECT title_ol FROM olympiad WHERE title_ol = '{title}'").fetchall())
+        temp = list(cur.execute(f"SELECT ol_id FROM olympiad").fetchall())
+        result = list(cur.execute(f"SELECT title_ol FROM olympiad WHERE title_ol = '{title}'").fetchall())
         sub_id = int(
             list(cur.execute(f"SELECT id_subject from subjects where '{subject}' = subject").fetchall())[0][0])
         zapros = ["ol_id", "title_ol", "subject_id"]
@@ -105,7 +107,7 @@ class Add_olympiad(QDialog):
             zapros.append("date")
             values.append(f"'{date}'")
         if self.checkBox_2.isChecked():
-            values.append(f"'{self.timeEdit.time().toString('hh.mm')}'")
+            values.append(f"'{self.timeEdit.time().toString('hh:mm')}'")
             print(values[-1])
             zapros.append("time")
         if self.checkBox_5.isChecked():

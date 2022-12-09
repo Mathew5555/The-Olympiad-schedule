@@ -1,21 +1,31 @@
-from messages_box import *
-
-
 class Password_Error(Exception):
     pass
 
+class Login_error(Exception):
+    pass
 
-class Len_Error(Password_Error):
-    def __init__(self, title, text):
-        warning_message_box(self, title, text)
+class MyFileNotFoundError(FileNotFoundError):
+    def __str__(self):
+        return 'Неверный путь или название файла'
+class Len_Pass_Error(Password_Error):
+    def __str__(self):
+        return 'Пароль должен быть более 8 симолов'
 
 
-class User_Error(Exception):
+class User_Error(Login_error):
     def __str__(self):
         return 'Такой логин уже занят'
 
 
-class Len_Username_Error(Exception):
-
+class Len_Username_Error(Login_error):
     def __str__(self):
         return 'Длина логина не должна быть меньше 4!'
+
+
+class Incorrect_Enter(Exception):
+    def __str__(self):
+        return 'Неправильное имя пользователя или пароль.\nПовторите попытку'
+
+class Space_Error(Exception):
+    def __str__(self):
+        return 'Вы заполнили не все поля'

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>Welcome</class>
+ <widget class="QDialog" name="Welcome">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -49,7 +49,7 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item alignment="Qt::AlignHCenter">
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="label_hello">
              <property name="styleSheet">
               <string notr="true">color: rgb(85, 85, 255);
 font: italic 28pt &quot;Monotype Corsiva&quot;;
@@ -62,7 +62,7 @@ font: italic 28pt &quot;Monotype Corsiva&quot;;
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="label_welcome">
              <property name="styleSheet">
               <string notr="true">color: rgb(85, 85, 255);
 font: italic 22pt &quot;Monotype Corsiva&quot;;
@@ -75,7 +75,7 @@ font: italic 22pt &quot;Monotype Corsiva&quot;;
             </widget>
            </item>
            <item alignment="Qt::AlignHCenter">
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="label_welcome_2">
              <property name="styleSheet">
               <string notr="true">color: rgb(85, 85, 255);
 font: italic 22pt &quot;Monotype Corsiva&quot;;
@@ -93,6 +93,12 @@ font: italic 22pt &quot;Monotype Corsiva&quot;;
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <widget class="QPushButton" name="btn_enter">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>35</height>
+              </size>
+             </property>
              <property name="styleSheet">
               <string notr="true">background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 230, 255), stop:1 rgba(85, 130, 255));
 border-color: rgb(0, 0, 255);
@@ -109,6 +115,12 @@ border-radius: 15px;
            </item>
            <item>
             <widget class="QPushButton" name="btn_reg">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>35</height>
+              </size>
+             </property>
              <property name="styleSheet">
               <string notr="true">background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 230, 255), stop:1 rgba(85, 130, 255));
 border-color: rgb(0, 0, 255);

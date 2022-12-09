@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="edit_name">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -64,7 +64,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="label_name">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -89,7 +89,7 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
        </widget>
       </item>
       <item alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_name_2">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -118,7 +118,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_date_res">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -143,7 +143,7 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="label_date_res_2">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -172,7 +172,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_score">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -197,7 +197,7 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="label_score_2">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -226,7 +226,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="label_res">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -251,7 +251,7 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_15">
+       <widget class="QLabel" name="label_res_2">
         <property name="minimumSize">
          <size>
           <width>220</width>
@@ -315,7 +315,7 @@ font: italic 28pt &quot;Monotype Corsiva&quot;;
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_9">
     <item>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="edit_button">
       <property name="minimumSize">
        <size>
         <width>151</width>
@@ -336,7 +336,7 @@ background-color:rgb(255, 170, 0);</string>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="del_button">
       <property name="minimumSize">
        <size>
         <width>151</width>
@@ -358,7 +358,7 @@ background-color: rgb(255, 60, 1);</string>
     </item>
    </layout>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="edit_res">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -377,7 +377,7 @@ background-color: rgb(255, 60, 1);</string>
     <string notr="true">border: 2px solid black;</string>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox">
+  <widget class="QSpinBox" name="spin_box_score">
    <property name="geometry">
     <rect>
      <x>480</x>

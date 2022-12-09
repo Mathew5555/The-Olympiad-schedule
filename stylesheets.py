@@ -21,7 +21,7 @@ stylesheet_reg = """
 
 
 stylesheet_main = """
-    MainWindow {
+    Main_Table_Window {
         background-image: url("background_welcome_window.jpg");
         background-repeat: no-repeat;
         background-position: center;

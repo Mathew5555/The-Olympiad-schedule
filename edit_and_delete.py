@@ -1,4 +1,3 @@
-import sys
 import sqlite3
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
 from PyQt5 import uic
@@ -19,55 +18,56 @@ class Edit_Ol(QDialog):
         uic.loadUi('edit_and_delete.ui', self)
         self.setFixedSize(793, 491)
         self.con = sqlite3.connect("olympiads.db")
-        self.label_11.setText(self.elements[0])
-        self.label_12.setText(self.elements[1])
-        self.label_13.setText(self.elements[2])
-        self.label_14.setText(self.elements[3])
-        self.label_15.setText(self.elements[4])
-        self.label_16.setText(str(self.elements[5]))
-        self.label_17.setText(self.elements[6])
-        self.spinBox.setMaximum(2147483647)
-        self.pushButton_2.clicked.connect(self.run)
-        self.pushButton.clicked.connect(self.run_2)
+        print(self.elements)
+        self.label_name_2.setText(self.elements[0])
+        self.label_subject_2.setText(self.elements[1])
+        self.label_date_2.setText(self.elements[2])
+        self.label_time_2.setText(self.elements[3])
+        self.label_place_2.setText(self.elements[4])
+        self.label_duration_2.setText(str(self.elements[5]))
+        self.label_date_result_2.setText(self.elements[6])
+        self.spin_box_duration.setMaximum(2147483647)
+        self.edit_button.clicked.connect(self.func_edit)
+        self.del_button.clicked.connect(self.func_del)
 
-    def run(self):
+    def func_edit(self):
         cur = self.con.cursor()
-        zapros = []
-        if self.lineEdit_3.text():
+        request = []
+        if self.edit_subject.text():
             try:
-                sub_id = int(list(cur.execute(f"SELECT id_subject from subjects where '{self.lineEdit_3.text()}' = "
+                sub_id = int(list(cur.execute(f"SELECT id_subject from subjects where '{self.edit_subject.text()}' = "
                                               f"subject").fetchall())[0][0])
             except IndexError:
-                subject = self.lineEdit_3.text()
+                subject = self.edit_subject.text()
                 sub_id = len(list(cur.execute(f"SELECT id_subject from subjects").fetchall())) + 1
                 cur.execute(f"""INSERT INTO subjects(id_subject, subject) VALUES({sub_id}, '{subject}')""")
-            zapros = [f"subject_id = '{sub_id}'"]
-        if self.lineEdit.text():
-            zapros.append(f"title_ol = '{self.lineEdit.text()}'")
+            request = [f"subject_id = '{sub_id}'"]
+        if self.edit_name.text():
+            request.append(f"title_ol = '{self.edit_name.text()}'")
         if self.dateEdit.date().toString("dd.MM.yyyy") != "01.01.2000":
-            zapros.append(f"date = '{self.dateEdit.date().toString('dd.MM.yyyy')}'")
+            request.append(f"date = '{self.dateEdit.date().toString('dd.MM.yyyy')}'")
         if self.timeEdit.time().toString('hh:mm') != "0:00":
-            zapros.append(f"time = '{self.timeEdit.time().toString('hh:mm')}'")
-        if self.lineEdit_2.text():
-            zapros.append(f"place = '{self.lineEdit_2.text()}'")
-        if self.spinBox.text():
-            zapros.append(f"duration = {int(self.spinBox.text())}")
+            request.append(f"time = '{self.timeEdit.time().toString('hh:mm')}'")
+            print(request)
+        if self.edit_place.text():
+            request.append(f"place = '{self.edit_place.text()}'")
+        if self.spin_box_duration.text():
+            request.append(f"duration = {int(self.spin_box_duration.text())}")
         if self.dateEdit_2.date().toString("dd.MM.yyyy") != "01.01.2000":
-            zapros.append(f"when_results = '{self.dateEdit_2.date().toString('dd.MM.yyyy')}'")
-        if zapros:
-            zapros = ", ".join(zapros)
-            print(zapros)
-            cur.execute(
-                f"UPDATE olympiad SET {zapros} WHERE id_user = {self.user} and title_ol = '{self.label_11.text()}'")
+            request.append(f"when_results = '{self.dateEdit_2.date().toString('dd.MM.yyyy')}'")
+        if request:
+            request = ", ".join(request)
+            cur.execute(f"UPDATE olympiad SET {request} WHERE id_user = {self.user} and title_ol = "
+                        f"'{self.label_name_2.text()}'")
             self.con.commit()
             self.close()
 
-    def run_2(self):
+    def func_del(self):
         valid = QMessageBox.question(
-            self, '', "Действительно удалить элементы  " + self.label_11.text(), QMessageBox.Yes, QMessageBox.No)
+            self, '', "Действительно удалить элементы  " + self.label_name_2.text(), QMessageBox.Yes, QMessageBox.No)
         if valid == QMessageBox.Yes:
             cur = self.con.cursor()
-            cur.execute(f"DELETE FROM olympiad WHERE id_user = {self.user} and title_ol = '{self.label_11.text()}'")
+            cur.execute(f"DELETE FROM olympiad WHERE id_user = {self.user} and title_ol = '{self.label_name_2.text()}'")
             self.con.commit()
             self.close()
 
@@ -85,37 +85,37 @@ class Edit_Res(QDialog):
         uic.loadUi('edit_res.ui', self)
         self.setFixedSize(720, 484)
         self.con = sqlite3.connect("olympiads.db")
-        self.label_11.setText(self.elements[0])
-        self.label_13.setText(self.elements[1])
-        self.label_14.setText(str(self.elements[2]))
-        self.label_15.setText(self.elements[3])
-        self.spinBox.setMaximum(2147483647)
-        self.pushButton_2.clicked.connect(self.run)
-        self.pushButton.clicked.connect(self.run_2)
+        self.label_name_2.setText(self.elements[0])
+        self.label_date_res_2.setText(self.elements[1])
+        self.label_score_2.setText(str(self.elements[2]))
+        self.label_res_2.setText(self.elements[3])
+        self.spin_box_score.setMaximum(2147483647)
+        self.edit_button.clicked.connect(self.run)
+        self.del_button.clicked.connect(self.run_2)
 
     def run(self):
         cur = self.con.cursor()
-        zapros = []
-        if self.lineEdit.text():
-            zapros.append(f"title_ol = '{self.lineEdit.text()}'")
+        request = []
+        if self.edit_name.text():
+            request.append(f"title_ol = '{self.edit_name.text()}'")
         if self.dateEdit.date().toString("dd.MM.yyyy") != "01.01.2000":
-            zapros.append(f"when_results = '{self.dateEdit.date().toString('dd.MM.yyyy')}'")
-        if self.lineEdit_2.text():
-            zapros.append(f"results = '{self.lineEdit_2.text()}'")
-        if self.spinBox.text():
-            zapros.append(f"scores = {int(self.spinBox.text())}")
-        if zapros:
-            zapros = ", ".join(zapros)
+            request.append(f"when_results = '{self.dateEdit.date().toString('dd.MM.yyyy')}'")
+        if self.edit_res.text():
+            request.append(f"results = '{self.edit_res.text()}'")
+        if self.spin_box_score.text():
+            request.append(f"scores = {int(self.spin_box_score.text())}")
+        if request:
+            request = ", ".join(request)
             cur.execute(
-                f"UPDATE olympiad SET {zapros} WHERE id_user = {self.user} and title_ol = '{self.label_11.text()}'")
+                f"UPDATE olympiad SET {request} WHERE id_user = {self.user} and title_ol = '{self.label_name_2.text()}'")
             self.con.commit()
             self.close()
 
     def run_2(self):
         valid = QMessageBox.question(
-            self, '', "Действительно удалить элементы  " + self.label_11.text(), QMessageBox.Yes, QMessageBox.No)
+            self, '', "Действительно удалить элементы  " + self.label_name_2.text(), QMessageBox.Yes, QMessageBox.No)
         if valid == QMessageBox.Yes:
             cur = self.con.cursor()
-            cur.execute(f"DELETE FROM olympiad WHERE id_user = {self.user} and title_ol = '{self.label_11.text()}'")
+            cur.execute(f"DELETE FROM olympiad WHERE id_user = {self.user} and title_ol = '{self.label_name_2.text()}'")
             self.con.commit()
             self.close()

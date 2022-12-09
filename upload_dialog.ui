@@ -13,7 +13,12 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <property name="styleSheet">
+   <string notr="true">
+background-color: rgb(233, 251, 255);
+</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -26,7 +31,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="radio_button_txt">
         <property name="styleSheet">
          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 170, 0);
@@ -41,7 +46,7 @@ color: rgb(255, 170, 0);
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_3">
+       <widget class="QRadioButton" name="radio_button_csv">
         <property name="styleSheet">
          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 170, 0);
@@ -58,7 +63,7 @@ color: rgb(255, 170, 0);
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="push_button_upload">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -68,7 +73,9 @@ color: rgb(255, 170, 0);
       <property name="styleSheet">
        <string notr="true">border: 3px solid black;
 border-radius: 10px;
-background-color: rgb(85, 170, 255);</string>
+background-color: rgb(85, 170, 255);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>Выгрузить</string>
