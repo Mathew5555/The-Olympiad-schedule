@@ -13,79 +13,39 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>110</y>
-     <width>528</width>
-     <height>58</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_7">
-    <item>
-     <spacer name="horizontalSpacer_6">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="maximumSize">
-       <size>
-        <width>10000000</width>
-        <height>10000000</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(85, 85, 255);
-font: italic 28pt &quot;Monotype Corsiva&quot;;
-
-</string>
-      </property>
-      <property name="text">
-       <string>Добавление олимпиады</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_7">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>490</y>
+     <x>380</x>
+     <y>480</y>
      <width>151</width>
      <height>41</height>
     </rect>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>151</width>
+     <height>41</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>151</width>
+     <height>41</height>
+    </size>
+   </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(85, 255, 0);
+    <string notr="true">#pushButton {
+background-color: rgb(85, 255, 0);
 font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
-border: 3px solid #5555ff;
+border: 5px solid grey;
 color: blue;
-</string>
+}
+
+#pushButton:hover {
+border: 5px solid #5555ff;
+}</string>
    </property>
    <property name="text">
     <string>Добавить</string>
@@ -94,8 +54,8 @@ color: blue;
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>41</x>
-     <y>191</y>
+     <x>26</x>
+     <y>180</y>
      <width>831</width>
      <height>291</height>
     </rect>
@@ -135,7 +95,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit">
+             <widget class="QLineEdit" name="edit_title">
               <property name="minimumSize">
                <size>
                 <width>280</width>
@@ -180,7 +140,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QLineEdit" name="edit_subject">
               <property name="minimumSize">
                <size>
                 <width>280</width>
@@ -200,7 +160,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item alignment="Qt::AlignLeft">
-             <widget class="QCheckBox" name="checkBox_5">
+             <widget class="QCheckBox" name="checkBox_place">
               <property name="minimumSize">
                <size>
                 <width>115</width>
@@ -230,7 +190,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_2">
+             <widget class="QLineEdit" name="edit_place">
               <property name="minimumSize">
                <size>
                 <width>280</width>
@@ -250,7 +210,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item alignment="Qt::AlignLeft">
-             <widget class="QCheckBox" name="checkBox_2">
+             <widget class="QCheckBox" name="checkBox_time">
               <property name="minimumSize">
                <size>
                 <width>115</width>
@@ -302,7 +262,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item alignment="Qt::AlignLeft">
-           <widget class="QCheckBox" name="checkBox_6">
+           <widget class="QCheckBox" name="checkBox_duration">
             <property name="minimumSize">
              <size>
               <width>115</width>
@@ -332,7 +292,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox">
+           <widget class="QSpinBox" name="spinbox_duration">
             <property name="minimumSize">
              <size>
               <width>280</width>
@@ -352,7 +312,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="checkBox_date">
             <property name="minimumSize">
              <size>
               <width>115</width>
@@ -395,7 +355,7 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
         <item alignment="Qt::AlignLeft">
-         <widget class="QCheckBox" name="checkBox_7">
+         <widget class="QCheckBox" name="checkBox_dateres">
           <property name="minimumSize">
            <size>
             <width>115</width>
@@ -475,6 +435,31 @@ font: italic 15pt &quot;Monotype Corsiva&quot;;
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>100</y>
+     <width>418</width>
+     <height>56</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>10000000</width>
+     <height>10000000</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(85, 85, 255);
+font: italic 28pt &quot;Monotype Corsiva&quot;;
+
+</string>
+   </property>
+   <property name="text">
+    <string>Добавление олимпиады</string>
+   </property>
   </widget>
  </widget>
  <resources/>

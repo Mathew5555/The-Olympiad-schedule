@@ -13,6 +13,11 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">
+background-color: rgb(233, 251, 255);
+</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -88,7 +93,7 @@ font: italic 28pt &quot;Monotype Corsiva&quot;;
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLabel" name="label_name">
+          <widget class="QLabel" name="label_id_text">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -113,10 +118,10 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_name_2">
+          <widget class="QLabel" name="label_id">
            <property name="minimumSize">
             <size>
-             <width>220</width>
+             <width>450</width>
              <height>30</height>
             </size>
            </property>
@@ -137,25 +142,12 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QSpinBox" name="spin_box_score">
-           <property name="minimumSize">
-            <size>
-             <width>220</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">border: 2px solid black;</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="label_date_res">
+          <widget class="QLabel" name="label_login_text">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -180,7 +172,7 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_date_res_2">
+          <widget class="QLabel" name="label_login">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -205,7 +197,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="edit_name">
+          <widget class="QLineEdit" name="edit_login">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -222,7 +214,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QLabel" name="label_score">
+          <widget class="QLabel" name="label_password_text">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -247,7 +239,7 @@ font: italic 17pt &quot;Monotype Corsiva&quot;;
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_score_2">
+          <widget class="QLabel" name="label_password">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -272,7 +264,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="edit_name_2">
+          <widget class="QLineEdit" name="edit_password">
            <property name="minimumSize">
             <size>
              <width>220</width>
@@ -314,12 +306,18 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">
+            <string notr="true">#edit_button {
 font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
-border: 3px solid #5555ff;
+border: 5px solid grey;
 color: blue;
-background-color:rgb(255, 170, 0);</string>
+background-color:rgb(255, 170, 0);
+}
+
+#edit_button:hover {
+border: 5px solid #5555ff;
+}
+</string>
            </property>
            <property name="text">
             <string>Изменить</string>
@@ -335,12 +333,18 @@ background-color:rgb(255, 170, 0);</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">
+            <string notr="true">#del_button {
 font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
-border: 3px solid #5555ff;
+border: 5px solid grey;
 color: blue;
-background-color: rgb(255, 60, 1);</string>
+background-color: rgb(255, 60, 1);
+}
+
+#del_button:hover {
+border: 5px solid #5555ff;
+}
+</string>
            </property>
            <property name="text">
             <string>Удалить</string>

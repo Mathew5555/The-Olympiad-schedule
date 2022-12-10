@@ -9,6 +9,8 @@ from add_window import *
 from stylesheets import *
 from edit_and_delete import *
 from upload import *
+from exceptions import *
+from edit_user import *
 
 
 def translate(*args):
@@ -46,8 +48,12 @@ class Main_Table_Window(QMainWindow):
         self.cur = con.cursor()
         if ww.USER_ID[0] == 0:
             uic.loadUi('admin.ui', self)
+            self.pixmap_3 = QPixmap('admin_photo.png')
+            self.label_photo_admin.setPixmap(self.pixmap_3)
             self.olympiad_table_3.cellDoubleClicked.connect(self.edit_users)
             self.olympiad_table_3.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+            self.find_Edit_3.textChanged.connect(self.admin_table_run)
+            self.upload_2.clicked.connect(self.upl_users)
             self.admin_table_run()
         else:
             uic.loadUi('main_window.ui', self)
@@ -65,8 +71,7 @@ class Main_Table_Window(QMainWindow):
         self.olympiad_table_2.cellDoubleClicked.connect(self.edit_results)
         self.add.clicked.connect(self.add_ol)
         self.user_name.setText(ww.USER_ID[1])
-        # self.add_2.clicked.connect(self.olympiad_table_run)
-        self.add_3.clicked.connect(self.results_table_run)
+        self.update_button.clicked.connect(self.update_func)
         self.filter_2.currentIndexChanged.connect(self.results_table_run)
         self.download.clicked.connect(self.downl)
         self.upload.clicked.connect(self.upl)
@@ -76,6 +81,12 @@ class Main_Table_Window(QMainWindow):
         self.label_3.setPixmap(self.pixmap_2)
         self.olympiad_table_run()
         self.results_table_run()
+
+    def update_func(self):
+        self.olympiad_table_run()
+        self.results_table_run()
+        if ww.USER_ID[0] == 0:
+            self.admin_table_run()
 
     def edit_olympiad(self, row, col):
         self.info_olymp = list(self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, "
@@ -95,10 +106,10 @@ class Main_Table_Window(QMainWindow):
         self.edit_res.show()
 
     def edit_users(self, row, col):
-        self.info_users = tuple(self.cur.execute(f"select username, password FROM users where user_id = "
+        self.info_users = tuple(self.cur.execute(f"select user_id, username, password FROM users where user_id = "
                                                  f"{self.olympiad_table_3.item(row, 0).text()}").fetchall())[0]
-        # self.edit_user = Edit_User(ww.USER_ID, self.info_users)
-        # self.edit_user.show()
+        self.edit_user = Edit_User(self.info_users)
+        self.edit_user.show()
 
     def admin_table_run(self):
         text = self.find_Edit_3.text().lower()
@@ -106,7 +117,7 @@ class Main_Table_Window(QMainWindow):
         self.olympiad_table_3.setHorizontalHeaderLabels(["ID", "Пользователь", "Пароль"])
         self.olympiad_table_3.setRowCount(0)
         users = self.cur.execute("select user_id, username, password FROM users where "
-                                 "username LIKE '%{text}%'").fetchall()
+                                 f"username LIKE '%{text}%'").fetchall()
         for i, row in enumerate(users):
             self.olympiad_table_3.setRowCount(self.olympiad_table_3.rowCount() + 1)
             for j, el in enumerate(row):
@@ -217,8 +228,12 @@ class Main_Table_Window(QMainWindow):
                 msg = QMessageBox.warning(self, "Внимание!", "Неверный формат текста в файле")
 
     def upl(self):
-        self.upload_win = Upload_Window()
+        self.upload_win = Upload_Window_Olympiad()
         self.upload_win.show()
+
+    def upl_users(self):
+        self.upload_win_user = Upload_Window_Users()
+        self.upload_win_user.show()
 
     def olympiad_table_run(self):
         text = self.find_Edit.text().lower()
@@ -266,18 +281,15 @@ class Main_Table_Window(QMainWindow):
         self.add_window = Add_olympiad(ww.USER_ID)
         self.add_window.show()
 
-
     def keyPressEvent(self, event):
         if int(event.modifiers()) == Qt.ControlModifier:
             if event.key() == Qt.Key_S:
-                self.upload_win = Upload_Window()
+                self.upload_win = Upload_Window_Olympiad()
                 self.upload_win.show()
             elif event.key() == Qt.Key_V or event.key() == Qt.Key_X:
                 self.downl()
             elif event.key() == Qt.Key_Question:
                 pass
-
-
 
 
 class Welcome(ww.Welcome):
@@ -292,8 +304,8 @@ class Welcome(ww.Welcome):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    # w = Welcome()
-    # w.show()
-    w = Main_Table_Window()
+    w = Welcome()
     w.show()
+    # w = Main_Table_Window()
+    # w.show()
     sys.exit(app.exec_())

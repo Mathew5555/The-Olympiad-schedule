@@ -37,12 +37,18 @@ background-color: rgb(233, 251, 255);
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">
+       <string notr="true">#edit_button {
 font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
-border: 3px solid #5555ff;
+border: 5px solid grey;
 color: blue;
-background-color:rgb(255, 170, 0);</string>
+background-color:rgb(255, 170, 0);
+}
+
+#edit_button:hover {
+border: 5px solid #5555ff;
+}
+</string>
       </property>
       <property name="text">
        <string>Изменить</string>
@@ -58,12 +64,17 @@ background-color:rgb(255, 170, 0);</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">
+       <string notr="true">#del_button {
 font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
-border: 3px solid #5555ff;
+border: 5px solid grey;
 color: blue;
-background-color: rgb(255, 60, 1);</string>
+background-color: rgb(255, 60, 1);
+}
+
+#del_button:hover {
+border: 5px solid #5555ff;
+}</string>
       </property>
       <property name="text">
        <string>Удалить</string>

@@ -100,12 +100,18 @@ font: italic 22pt &quot;Monotype Corsiva&quot;;
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 230, 255), stop:1 rgba(85, 130, 255));
-border-color: rgb(0, 0, 255);
+              <string notr="true">
+#btn_enter {
+background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 230, 255), stop:1 rgba(85, 130, 255));
 font: 12pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 255, 255);
-border: 4px solid rgb(0, 0, 255);
+border: 5px solid grey;
 border-radius: 15px;
+}
+
+#btn_enter:hover {
+border: 5px solid #5555ff;
+}
 </string>
              </property>
              <property name="text">
@@ -122,12 +128,19 @@ border-radius: 15px;
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 230, 255), stop:1 rgba(85, 130, 255));
-border-color: rgb(0, 0, 255);
+              <string notr="true">
+#btn_reg {
+background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 230, 255), stop:1 rgba(85, 130, 255));
 font: 12pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 255, 255);
-border: 4px solid rgb(0, 0, 255);
-border-radius: 15px;</string>
+border: 5px solid grey;
+border-radius: 15px;
+}
+
+#btn_reg:hover {
+border: 5px solid #5555ff;
+}
+</string>
              </property>
              <property name="text">
               <string>Зарегистрироваться</string>

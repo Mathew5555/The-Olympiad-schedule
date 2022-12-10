@@ -37,7 +37,7 @@ class Reg_Dialog(QDialog):
                     raise Len_Pass_Error
                 msg = QMessageBox.information(self, 'Успешно!', f'Регистрация прошла под логином {username}',
                                               QMessageBox.Ok)
-                new_id = len(list(cur.execute(f"SELECT username FROM users").fetchall())) + 1
+                new_id = list(cur.execute(f"SELECT user_id FROM users ORDER By user_id").fetchall())[-1][0] + 1
                 cur.execute(f"""INSERT INTO users(user_id, username, password) VALUES({new_id}, '{username}', 
                      '{password}')""")
                 self.close()
@@ -77,7 +77,6 @@ class Login_Dialog(QDialog):
             if result:
                 CLOSED_FLAG = 1
                 USER_ID = (result[0][0], result[0][1])
-                print(USER_ID, CLOSED_FLAG)
                 self.close()
                 self.con.close()
                 self.obj.close()
