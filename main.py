@@ -181,8 +181,10 @@ class Main_Table_Window(QMainWindow):
             with open(fname, encoding="utf8") as csvfile:
                 reader = csv.reader(csvfile, delimiter=';', quotechar='"')
                 for index, row in enumerate(reader):
-                    new_id = len(list(self.cur.execute(f"SELECT ol_id FROM olympiad where id_user = "
-                                                       f"{ww.USER_ID[0]}").fetchall())) + 1
+                    new_id = list(self.cur.execute(f"SELECT ol_id FROM olympiad where id_user = "
+                                                       f"{ww.USER_ID[0]}").fetchall())[-1][0] + 1
+                    # new_id = len(list(self.cur.execute(f"SELECT ol_id FROM olympiad where id_user = "
+                    #                                    f"{ww.USER_ID[0]}").fetchall())) + 1
                     checker = list(self.cur.execute(f"SELECT title_ol FROM olympiad WHERE title_ol = '{row[0]}' "
                                                     f"and id_user = {ww.USER_ID[0]}").fetchall())
                     try:
@@ -190,7 +192,8 @@ class Main_Table_Window(QMainWindow):
                                                            f"subject").fetchall())[0][0])
                     except IndexError:
                         subject = row[1]
-                        sub_id = len(list(self.cur.execute(f"SELECT id_subject from subjects").fetchall())) + 1
+                        sub_id = list(self.cur.execute(f"SELECT id_subject from subjects").fetchall())[-1][0] + 1
+                        # sub_id = len(list(self.cur.execute(f"SELECT id_subject from subjects").fetchall())) + 1
                         self.cur.execute(f"""INSERT INTO subjects(id_subject, subject) VALUES({sub_id}, '{subject}')""")
                     zapros = ["ol_id", "title_ol", "subject_id"]
                     values = [f"{new_id}", f"'{row[0]}'", f"{sub_id}"]
@@ -225,6 +228,7 @@ class Main_Table_Window(QMainWindow):
             warning_message_box(e, "Внимание")
         except Exception as e:
             if e.__class__.__name__ != "FileNotFoundError":
+                print(e)
                 msg = QMessageBox.warning(self, "Внимание!", "Неверный формат текста в файле")
 
     def upl(self):

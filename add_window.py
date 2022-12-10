@@ -120,7 +120,7 @@ class Add_olympiad(QDialog):
                 self.con.close()
             else:
                 raise Olymp_Error
-        except Space_Error as e:
+        except Space_Olympiad_Error as e:
             info_message_box(e, "Обратите внимание!")
         except Olymp_Error as e:
             warning_message_box(e, "Внимание!")
