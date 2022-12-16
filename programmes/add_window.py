@@ -6,10 +6,11 @@ from PyQt5 import uic
 from PyQt5.QtCore import QDate
 from exceptions import *
 from messages_box import *
+from PyQt5 import QtGui
 
 stylesheet_add = """
     Add_olympiad {
-        background-image: url("add_back.jpg");
+        background-image: url("../data/background/.jpg");
         background-repeat: no-repeat;
         background-position: center;
     } """
@@ -18,11 +19,12 @@ stylesheet_add = """
 class Add_olympiad(QDialog):
     def __init__(self, user):
         super().__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
         self.user = user[0]
-        uic.loadUi('add_ol.ui', self)
+        uic.loadUi("../data/graphics/add_ol.ui", self)
         self.setFixedSize(900, 643)
         self.setStyleSheet(stylesheet_add)
-        self.con = sqlite3.connect("olympiads.db")
+        self.con = sqlite3.connect("../data/olympiads.db")
         self.edit_place.hide()
         self.timeEdit.hide()
         self.calendarWidget.hide()
@@ -88,7 +90,6 @@ class Add_olympiad(QDialog):
                                               f"subject").fetchall())[0][0])
             except IndexError:
                 sub_id = list(cur.execute(f"SELECT id_subject from subjects").fetchall())[-1][0] + 1
-                # sub_id = len(list(cur.execute(f"SELECT id_subject from subjects").fetchall())) + 1
                 cur.execute(f"""INSERT INTO subjects(id_subject, subject) VALUES({sub_id}, '{subject}')""")
             request = ["ol_id", "title_ol", "subject_id"]
             values = [f"{new_olymp_id}", f"'{title}'", f"{sub_id}"]

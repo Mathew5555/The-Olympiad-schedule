@@ -1,27 +1,28 @@
 import csv
 import welcome_window as ww
 from edit_and_delete import *
+from PyQt5 import QtGui
 
 
 class Upload_Window_Olympiad(QDialog):
     def __init__(self):
         super(Upload_Window_Olympiad, self).__init__()
-        uic.loadUi('upload_dialog.ui', self)
-        con = sqlite3.connect("olympiads.db")
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
+        uic.loadUi('../data/graphics/upload_dialog.ui', self)
+        con = sqlite3.connect("../data/olympiads.db")
         self.cur = con.cursor()
         self.push_button_upload.clicked.connect(self.upload_func)
         self.radio_button_txt.nextCheckState()
 
     def upload_func(self):
         try:
-
             result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.time, "
                                       "olympiad.place, olympiad.duration, olympiad.when_results, olympiad.scores, "
                                       "olympiad.results FROM olympiad LEFT JOIN subjects on "
                                       "subjects.id_subject = olympiad.subject_id  where id_user = "
                                       f"{ww.USER_ID[0]}").fetchall()
             if self.radio_button_txt.isChecked():
-                with open('olymp.txt', 'wt', encoding="UTF-8") as f:
+                with open('../download_files/olymp.txt', 'wt', encoding="UTF-8") as f:
                     for el in result:
                         f.write(f"Название: {el[0]}\nПредмет: {el[1]}\n")
                         if el[2]:
@@ -55,7 +56,7 @@ class Upload_Window_Olympiad(QDialog):
                         f.write("----------------------------------------------------------\n")
                         self.close()
             else:
-                with open('olymp.csv', 'w', newline='', encoding="utf8") as csvfile:
+                with open('../download_files/olymp.csv', 'w', newline='', encoding="utf8") as csvfile:
                     writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                     writer.writerow(
                         ["Название", "Предмет", "Дата", "Время", "Место", "Длительность", "Дата результатов", "Баллы",
@@ -76,8 +77,9 @@ class Upload_Window_Olympiad(QDialog):
 class Upload_Window_Users(QDialog):
     def __init__(self):
         super(Upload_Window_Users, self).__init__()
-        uic.loadUi('upload_dialog.ui', self)
-        con = sqlite3.connect("olympiads.db")
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
+        uic.loadUi('../data/graphics/upload_dialog.ui', self)
+        con = sqlite3.connect("../data/olympiads.db")
         self.cur = con.cursor()
         self.push_button_upload.clicked.connect(self.upload_func)
         self.radio_button_txt.nextCheckState()
@@ -85,12 +87,12 @@ class Upload_Window_Users(QDialog):
     def upload_func(self):
         result = self.cur.execute("select user_id, username, password FROM users").fetchall()
         if self.radio_button_txt.isChecked():
-            with open('users.txt', 'wt', encoding="UTF-8") as f:
+            with open('../download_files/users.txt', 'wt', encoding="UTF-8") as f:
                 for el in result:
                     f.write(f"Id: {el[0]}\nЛогин: {el[1]}\nПароль: {el[2]}\n")
                     f.write("----------------------------------------------------------\n")
         else:
-            with open('users.csv', 'w', newline='', encoding="utf8") as csvfile:
+            with open('../download_files/users.csv', 'w', newline='', encoding="utf8") as csvfile:
                 writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(["Id", "Логин", "Пароль"])
                 for el in result:

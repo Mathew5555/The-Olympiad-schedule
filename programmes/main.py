@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QHeaderView, QFileDia
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QColor
+from PyQt5 import QtGui
 import welcome_window as ww
 from add_window import *
 from stylesheets import *
@@ -44,11 +45,12 @@ def retranslate(args):
 class Main_Table_Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        con = sqlite3.connect("olympiads.db")
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
+        con = sqlite3.connect("../data/olympiads.db")
         self.cur = con.cursor()
         if ww.USER_ID[0] == 0:
-            uic.loadUi('admin.ui', self)
-            self.pixmap_3 = QPixmap('admin_photo.png')
+            uic.loadUi('../data/graphics/admin.ui', self)
+            self.pixmap_3 = QPixmap('../data/background/admin_photo.png')
             self.label_photo_admin.setPixmap(self.pixmap_3)
             self.olympiad_table_3.cellDoubleClicked.connect(self.edit_users)
             self.olympiad_table_3.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -56,7 +58,7 @@ class Main_Table_Window(QMainWindow):
             self.upload_2.clicked.connect(self.upl_users)
             self.admin_table_run()
         else:
-            uic.loadUi('main_window.ui', self)
+            uic.loadUi('../data/graphics/main_window.ui', self)
         self.setFixedSize(1200, 800)
         self.setStyleSheet(stylesheet_main)
         self.user_name.setAlignment(Qt.AlignRight)
@@ -75,12 +77,17 @@ class Main_Table_Window(QMainWindow):
         self.filter_2.currentIndexChanged.connect(self.results_table_run)
         self.download.clicked.connect(self.downl)
         self.upload.clicked.connect(self.upl)
-        self.pixmap = QPixmap('cup.png')
+        self.pixmap = QPixmap('../data/background/cup.png')
         self.label_2.setPixmap(self.pixmap)
-        self.pixmap_2 = QPixmap('main_photo.png')
+        self.pixmap_2 = QPixmap('../data/background/main_photo.png')
         self.label_3.setPixmap(self.pixmap_2)
+        self.question_button.clicked.connect(self.question_run)
         self.olympiad_table_run()
         self.results_table_run()
+
+    def question_run(self):
+        self.quest_win = Question_Dialog()
+        self.quest_win.show()
 
     def update_func(self):
         self.olympiad_table_run()
@@ -117,7 +124,8 @@ class Main_Table_Window(QMainWindow):
         self.olympiad_table_3.setHorizontalHeaderLabels(["ID", "Пользователь", "Пароль"])
         self.olympiad_table_3.setRowCount(0)
         users = self.cur.execute("select user_id, username, password FROM users where "
-                                 f"username LIKE '%{text}%'").fetchall()
+                                 f"(username LIKE '%{text}%' or username LIKE '%{text.capitalize()}%' or username LIKE "
+                                 f"'%{text.upper()}%')").fetchall()
         for i, row in enumerate(users):
             self.olympiad_table_3.setRowCount(self.olympiad_table_3.rowCount() + 1)
             for j, el in enumerate(row):
@@ -147,7 +155,8 @@ class Main_Table_Window(QMainWindow):
             "select olympiad.title_ol, subjects.subject, olympiad.when_results, olympiad.scores, "
             "results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
             "olympiad.subject_id where "
-            f"title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} " + filter_string).fetchall()
+            f"(title_ol LIKE '%{text}%'or title_ol LIKE '%{text.capitalize()}%' or title_ol LIKE '%{text.upper()}%') "
+            f"and id_user = {ww.USER_ID[0]} " + filter_string).fetchall()
         if filter_text == "Дата результатов":
             result = sorted(filter(lambda x: x[2], result), key=lambda x: (int(x[2].split(".")[2]),
                                                                            int(x[2].split(".")[1]),
@@ -182,9 +191,7 @@ class Main_Table_Window(QMainWindow):
                 reader = csv.reader(csvfile, delimiter=';', quotechar='"')
                 for index, row in enumerate(reader):
                     new_id = list(self.cur.execute(f"SELECT ol_id FROM olympiad where id_user = "
-                                                       f"{ww.USER_ID[0]}").fetchall())[-1][0] + 1
-                    # new_id = len(list(self.cur.execute(f"SELECT ol_id FROM olympiad where id_user = "
-                    #                                    f"{ww.USER_ID[0]}").fetchall())) + 1
+                                                   f"{ww.USER_ID[0]}").fetchall())[-1][0] + 1
                     checker = list(self.cur.execute(f"SELECT title_ol FROM olympiad WHERE title_ol = '{row[0]}' "
                                                     f"and id_user = {ww.USER_ID[0]}").fetchall())
                     try:
@@ -193,7 +200,6 @@ class Main_Table_Window(QMainWindow):
                     except IndexError:
                         subject = row[1]
                         sub_id = list(self.cur.execute(f"SELECT id_subject from subjects").fetchall())[-1][0] + 1
-                        # sub_id = len(list(self.cur.execute(f"SELECT id_subject from subjects").fetchall())) + 1
                         self.cur.execute(f"""INSERT INTO subjects(id_subject, subject) VALUES({sub_id}, '{subject}')""")
                     zapros = ["ol_id", "title_ol", "subject_id"]
                     values = [f"{new_id}", f"'{row[0]}'", f"{sub_id}"]
@@ -254,7 +260,8 @@ class Main_Table_Window(QMainWindow):
             filter_string = "ORDER BY olympiad.scores DESC"
         result = self.cur.execute("select olympiad.title_ol, subjects.subject, olympiad.date, olympiad.place, "
                                   "when_results FROM olympiad LEFT JOIN subjects on subjects.id_subject = "
-                                  f"olympiad.subject_id where title_ol LIKE '%{text}%' and id_user = {ww.USER_ID[0]} "
+                                  f"olympiad.subject_id where id_user = {ww.USER_ID[0]}  and (title_ol LIKE '%{text}%' "
+                                  f"or title_ol LIKE '%{text.capitalize()}%' or title_ol LIKE '%{text.upper()}%')"
                                   + filter_string).fetchall()
         if filter_text == "Дата результатов":
             result = sorted(filter(lambda x: x[4], result), key=lambda x: (int(x[4].split(".")[2]),
@@ -267,7 +274,7 @@ class Main_Table_Window(QMainWindow):
         for i, row in enumerate(result):
             self.olympiad_table.setRowCount(self.olympiad_table.rowCount() + 1)
             if row[2] and dt.date(int(row[2].split(".")[2]), int(row[2].split(".")[1]),
-                                  int(row[2].split(".")[0])) > dt.date.today():
+                                  int(row[2].split(".")[0])) < dt.date.today():
                 color = "#46b8fa"
             else:
                 color = "#8f8f8f"
@@ -296,9 +303,17 @@ class Main_Table_Window(QMainWindow):
                 pass
 
 
+class Question_Dialog(QDialog):
+    def __init__(self):
+        super(Question_Dialog, self).__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
+        uic.loadUi('../data/graphics/questions.ui', self)
+
+
 class Welcome(ww.Welcome):
     def __init__(self):
         super(Welcome, self).__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
 
     def closeEvent(self, event):
         self.main_window = Main_Table_Window()
@@ -308,8 +323,8 @@ class Welcome(ww.Welcome):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    w = Welcome()
-    w.show()
-    # w = Main_Table_Window()
+    # w = Welcome()
     # w.show()
+    w = Main_Table_Window()
+    w.show()
     sys.exit(app.exec_())

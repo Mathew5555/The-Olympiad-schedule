@@ -5,6 +5,7 @@ from PyQt5 import uic
 from stylesheets import *
 from exceptions import *
 from messages_box import *
+from PyQt5 import QtGui
 
 CLOSED_FLAG = 0
 USER_ID = (0, "")
@@ -13,13 +14,13 @@ USER_ID = (0, "")
 class Reg_Dialog(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi('reg.ui', self)
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
+        uic.loadUi('../data/graphics/reg.ui', self)
         self.setFixedSize(700, 500)
         self.setStyleSheet(stylesheet_reg)
-        self.con = sqlite3.connect("olympiads.db")
+        self.con = sqlite3.connect("../data/olympiads.db")
         self.btn_enter_reg.clicked.connect(self.reg_check)
         self.password_reg.setEchoMode(QLineEdit.EchoMode.Password)
-
 
     def reg_check(self):
         global USER_ID
@@ -56,11 +57,12 @@ class Reg_Dialog(QDialog):
 class Login_Dialog(QDialog):
     def __init__(self, obj):
         super().__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
         self.obj = obj
-        uic.loadUi('log.ui', self)
+        uic.loadUi('../data/graphics/log.ui', self)
         self.setFixedSize(700, 500)
         self.setStyleSheet(stylesheet_log)
-        self.con = sqlite3.connect("olympiads.db")
+        self.con = sqlite3.connect("../data/olympiads.db")
         self.btn_enter_log.clicked.connect(self.login_check)
         self.password.setEchoMode(QLineEdit.EchoMode.Password)
 
@@ -91,7 +93,8 @@ class Login_Dialog(QDialog):
 class Welcome(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi('welcome_window.ui', self)
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
+        uic.loadUi('../data/graphics/welcome_window.ui', self)
         self.setStyleSheet(stylesheet_welcome)
         self.setFixedSize(1200, 800)
         self.btn_enter.clicked.connect(self.login)

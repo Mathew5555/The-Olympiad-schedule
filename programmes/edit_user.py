@@ -2,15 +2,17 @@ import sqlite3
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
 from PyQt5 import uic
 from messages_box import *
+from PyQt5 import QtGui
 
 
 class Edit_User(QDialog):
     def __init__(self, elements):
         super().__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
         self.elements = elements
-        uic.loadUi('edit_user.ui', self)
+        uic.loadUi('../data/graphics/edit_user.ui', self)
         self.setFixedSize(715, 250)
-        self.con = sqlite3.connect("olympiads.db")
+        self.con = sqlite3.connect("../data/olympiads.db")
         self.label_id.setText(str(self.elements[0]))
         self.label_login.setText(str(self.elements[1]))
         self.label_password.setText(str(self.elements[2]))

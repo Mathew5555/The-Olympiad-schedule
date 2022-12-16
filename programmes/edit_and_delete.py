@@ -4,11 +4,13 @@ from PyQt5 import uic
 from messages_box import *
 from PyQt5.QtCore import QDate
 import datetime as dt
+from PyQt5 import QtGui
 
 
 class Edit_Ol(QDialog):
     def __init__(self, user, elements):
         super().__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
         self.user = user[0]
         self.elements = []
         for el in elements:
@@ -16,13 +18,13 @@ class Edit_Ol(QDialog):
                 self.elements.append("Нет данных")
             else:
                 self.elements.append(el)
-        uic.loadUi('edit_and_delete.ui', self)
+        uic.loadUi('../data/graphics/edit_and_delete.ui', self)
         self.setFixedSize(793, 491)
         date = dt.date.today()
         d = QDate(date.year, date.month, date.day)
         self.dateEdit_2.setDate(d)
         self.dateEdit.setDate(d)
-        self.con = sqlite3.connect("olympiads.db")
+        self.con = sqlite3.connect("../data/olympiads.db")
         self.label_name_2.setText(str(self.elements[0]))
         self.label_subject_2.setText(str(self.elements[1]))
         self.label_date_2.setText(str(self.elements[2]))
@@ -44,7 +46,6 @@ class Edit_Ol(QDialog):
             except IndexError:
                 subject = self.edit_subject.text()
                 sub_id = list(cur.execute(f"SELECT id_subject from subjects").fetchall())[-1][0] + 1
-                # sub_id = len(list(cur.execute(f"SELECT id_subject from subjects").fetchall())) + 1
                 cur.execute(f"""INSERT INTO subjects(id_subject, subject) VALUES({sub_id}, '{subject}')""")
             request = [f"subject_id = '{sub_id}'"]
         if self.edit_name.text():
@@ -79,6 +80,7 @@ class Edit_Ol(QDialog):
 class Edit_Res(QDialog):
     def __init__(self, user, elements):
         super().__init__()
+        self.setWindowIcon(QtGui.QIcon('../data/background/icon.png'))
         self.user = user[0]
         self.elements = []
         for el in elements:
@@ -86,9 +88,9 @@ class Edit_Res(QDialog):
                 self.elements.append("Нет данных")
             else:
                 self.elements.append(el)
-        uic.loadUi('edit_res.ui', self)
+        uic.loadUi('../data/graphics/edit_res.ui', self)
         self.setFixedSize(720, 357)
-        self.con = sqlite3.connect("olympiads.db")
+        self.con = sqlite3.connect("../data/olympiads.db")
         date = dt.date.today()
         d = QDate(date.year, date.month, date.day)
         self.dateEdit.setDate(d)
