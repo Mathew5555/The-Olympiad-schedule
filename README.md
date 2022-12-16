@@ -14,3 +14,14 @@
 ```python
 pip install -r requirements.txt
 ```
+### Запуск
+Перейдите в терминале в папку проекта. Затем (Для windows): 
+```
+cd .\exefile
+.\main.exe
+```
+Для linux: 
+```
+cd ./exefile
+./main.exe
+```
