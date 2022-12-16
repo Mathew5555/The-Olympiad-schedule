@@ -10,7 +10,7 @@ from PyQt5 import QtGui
 
 stylesheet_add = """
     Add_olympiad {
-        background-image: url("../data/background/.jpg");
+        background-image: url("../data/background/add_back.jpg");
         background-repeat: no-repeat;
         background-position: center;
     } """

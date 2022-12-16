@@ -323,8 +323,6 @@ class Welcome(ww.Welcome):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    # w = Welcome()
-    # w.show()
-    w = Main_Table_Window()
+    w = Welcome()
     w.show()
     sys.exit(app.exec_())
