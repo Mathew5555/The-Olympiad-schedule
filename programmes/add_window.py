@@ -83,7 +83,7 @@ class Add_olympiad(QDialog):
             if not title or not subject:
                 raise Space_Olympiad_Error
             cur = self.con.cursor()
-            new_olymp_id = len(list(cur.execute(f"SELECT ol_id FROM olympiad").fetchall())) + 1
+            new_olymp_id = list(cur.execute(f"SELECT ol_id FROM olympiad").fetchall())[-1][0] + 1
             result = list(cur.execute(f"SELECT title_ol FROM olympiad WHERE title_ol = '{title}'").fetchall())
             try:
                 sub_id = int(list(cur.execute(f"SELECT id_subject from subjects where '{self.edit_subject.text()}' = "
